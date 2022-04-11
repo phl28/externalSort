@@ -107,7 +107,6 @@ class MinHeap
 public class externalSort {
     
     public static void main (String[] args) {
-        // code below is wrong as it is copied directly from a c++ code
         // !!!!!!
         // No. of Partitions of input file.
         int num_ways = 10;
@@ -228,7 +227,7 @@ public class externalSort {
             String fileName = new String[2];
      
             // convert i to string
-            // !!!!!!
+            // !!!!!! snprintf, sizeof are not java methods
             snprintf(fileName, sizeof(fileName),
                      "%d", i);
      
@@ -248,7 +247,7 @@ public class externalSort {
         for (i = 0; i < k; i++) {
             // break if no output file is empty and
             // index i will be no. of input files
-            //!!!!!!
+            //!!!!!! fscanf and & are not available in java
             if (fscanf(in[i], "%d ", &harr[i].element) != 1)
                 break;
      
@@ -325,6 +324,7 @@ public class externalSort {
      
         // allocate a dynamic array large enough
         // to accommodate runs of size run_size
+        // !!!!!! malloc is not available in java
         int[] arr = (int*)malloc(
             run_size * Integer.Bytes);
      
