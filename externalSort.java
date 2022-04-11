@@ -245,7 +245,7 @@ public class externalSort {
             k++;
         }
     }
-    ---------------------------
+
     File readFile(charm fileName)
     {
         File fp = new File(fileName);
@@ -257,7 +257,7 @@ public class externalSort {
         return reader;
     }
     
-    File writeFile(char* fileName)
+    File writeFile(char fileName)
     {
         try {
             FileWriter writer = new FileWriter(filename);
@@ -270,17 +270,6 @@ public class externalSort {
 
     }
     
-    public class WriteToFile {
-      public static void main(String[] args) {
-        try {
-          FileWriter myWriter = new FileWriter("filename.txt");
-          myWriter.write("Files in Java might be tricky, but it is fun enough!");
-          myWriter.close();
-          System.out.println("Successfully wrote to the file.");
-        }
-    }
-
-    ---------------------------
     
     // Merges k sorted files. Names of files are assumed
     // to be 1, 2, 3, ... k
