@@ -254,7 +254,7 @@ public class externalSort {
             System.out.println("An error occurred while opening the file.");
             e.printStackTrace();
         }
-        return fp;
+        return reader;
     }
     
     File writeFile(char* fileName)
@@ -284,40 +284,43 @@ public class externalSort {
     
     // Merges k sorted files. Names of files are assumed
     // to be 1, 2, 3, ... k
-    public void mergeFiles(char* output_file, int n, int k)
+    static void mergeFiles(char[] output_file, int n, int k)
     {
-        File* in[k];
+        File[] in[k];
         for (int i = 0; i < k; i++) {
             char fileName[2];
      
             // convert i to string
+            // !!!!!!
             snprintf(fileName, sizeof(fileName),
                      "%d", i);
      
             // Open output files in read mode.
-            in[i] = openFile(fileName, "r");
+            in[i] = readFile(fileName);
         }
      
         // FINAL OUTPUT FILE
-        FILE* out = openFile(output_file, "w");
+        File out = writeFile(output_file);
      
         // Create a min heap with k heap
         // nodes. Every heap node
         // has first element of scratch
         // output file
-        MinHeapNode* harr = new MinHeapNode[k];
+        MinHeapNode[] harr = new MinHeapNode[k];
         int i;
         for (i = 0; i < k; i++) {
             // break if no output file is empty and
             // index i will be no. of input files
+            //!!!!!!
             if (fscanf(in[i], "%d ", &harr[i].element) != 1)
                 break;
      
             // Index of scratch output file
             harr[i].i = i;
         }
+        
         // Create the heap
-        MinHeap hp(harr, i);
+        MinHeap hp = new MinHeap(harr, i);
      
         int count = 0;
      
@@ -331,6 +334,7 @@ public class externalSort {
             // Get the minimum element
             // and store it in output file
             MinHeapNode root = hp.getMin();
+            // !!!
             fprintf(out, "%d ", root.element);
      
             // Find the next element that
@@ -338,10 +342,11 @@ public class externalSort {
             // root of heap. The next element
             // belongs to same
             // input file as the current min element.
+            // !!!!
             if (fscanf(in[root.i], "%d ",
                        &root.element)
                 != 1) {
-                root.element = INT_MAX;
+                root.element = Integer.MAX_VALUE;
                 count++;
             }
      
@@ -361,15 +366,15 @@ public class externalSort {
     // create the initial runs
     // and divide them evenly among
     // the output files
-    void createInitialRuns(
-        char* input_file, int run_size,
+    static void createInitialRuns(
+        char[] input_file, int run_size,
         int num_ways)
     {
         // For big input file
-        FILE* in = openFile(input_file, "r");
+        File[] in = readFile(input_file);
      
         // output scratch files
-        FILE* out[num_ways];
+        File out[num_ways];
         char fileName[2];
         for (int i = 0; i < num_ways; i++) {
             // convert i to string
