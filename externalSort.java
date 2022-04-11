@@ -3,10 +3,10 @@ import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
 import java.io.IOException;
 import java.io.FileWriter;
+import java.util.Random;
 
+// Below lines marked with !!!!!! are lines that I believe have to be corrected as they were originally c++ code
 
-// Java program to merge k sorted
-// arrays of size n each.
  
 // A min heap node
 class MinHeapNode
@@ -108,24 +108,27 @@ public class externalSort {
     
     public static void main (String[] args) {
         // code below is wrong as it is copied directly from a c++ code
+        // !!!!!!
         // No. of Partitions of input file.
         int num_ways = 10;
      
         // The size of each partition
         int run_size = 1000;
      
-        char input_file[] = "input.txt";
-        char output_file[] = "output.txt";
+        String input_file = "input.txt";
+        String output_file = "output.txt";
      
         File in = writeFile(input_file);
      
-        srand(time(NULL));
-     
+        Random rand = new Random()
+        int upperbound = 1000000;
+        
         // generate input
         for (int i = 0; i < num_ways * run_size; i++)
-            fprintf(in, "%d ", rand());
+            int randInt = rand.nextInt(upperbound);
+            in.write(randomInt);
      
-        fclose(in);
+        in.close();
      
         externalSort(input_file, output_file, num_ways,
                      run_size);
@@ -189,7 +192,7 @@ public class externalSort {
         }
     }
 
-    File readFile(charm fileName)
+    File readFile(String fileName)
     {
         try {
             File fp = new File(fileName);
@@ -203,12 +206,12 @@ public class externalSort {
 
     }
     
-    File writeFile(char fileName)
+    File writeFile(String fileName)
     {
         try {
             FileWriter writer = new FileWriter(filename);
             return writer;
-        }catch {
+        }catch (IOException e){
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
@@ -218,11 +221,11 @@ public class externalSort {
     
     // Merges k sorted files. Names of files are assumed
     // to be 1, 2, 3, ... k
-    static void mergeFiles(char[] output_file, int n, int k)
+    static void mergeFiles(String[] output_file, int n, int k)
     {
-        File[] in[k];
+        File[] in = new File[k];
         for (int i = 0; i < k; i++) {
-            char fileName[2];
+            String fileName = new String[2];
      
             // convert i to string
             // !!!!!!
@@ -291,9 +294,9 @@ public class externalSort {
      
         // close input and output files
         for (int i = 0; i < k; i++)
-            fclose(in[i]);
+            int[i].close();
      
-        fclose(out);
+        out.close();
     }
     
     // Using a merge-sort algorithm,
@@ -301,30 +304,31 @@ public class externalSort {
     // and divide them evenly among
     // the output files
     static void createInitialRuns(
-        char[] input_file, int run_size,
+        String[] input_file, int run_size,
         int num_ways)
     {
         // For big input file
-        File[] in = readFile(input_file);
+        File in = readFile(input_file);
      
         // output scratch files
-        File out[num_ways];
-        char fileName[2];
+        File[] out = new File[num_ways];
+        String[] fileName = new String[2];
         for (int i = 0; i < num_ways; i++) {
             // convert i to string
-            snprintf(fileName, sizeof(fileName),
+            // !!!!!!
+            snprintf(fileName, fileName.SIZE,
                      "%d", i);
      
             // Open output files in write mode.
-            out[i] = openFile(fileName, "w");
+            out[i] = writeFile(fileName);
         }
      
         // allocate a dynamic array large enough
         // to accommodate runs of size run_size
-        int* arr = (int*)malloc(
-            run_size * sizeof(int));
+        int[] arr = (int*)malloc(
+            run_size * Integer.Bytes);
      
-        bool more_input = true;
+        boolean more_input = true;
         int next_output_file = 0;
      
         int i;
@@ -332,6 +336,7 @@ public class externalSort {
             // write run_size elements
             // into arr from input file
             for (i = 0; i < run_size; i++) {
+                // !!!!!
                 if (fscanf(in, "%d ", &arr[i]) != 1) {
                     more_input = false;
                     break;
@@ -339,7 +344,7 @@ public class externalSort {
             }
      
             // sort array using merge sort
-            mergeSort(arr, 0, i - 1);
+            mergeSort(arr);
      
             // write the records to the
             // appropriate scratch output file
@@ -348,6 +353,7 @@ public class externalSort {
             // since the last run's length
             // may be less than run_size
             for (int j = 0; j < i; j++)
+                //!!!!!
                 fprintf(out[next_output_file],
                         "%d ", arr[j]);
      
@@ -356,14 +362,14 @@ public class externalSort {
      
         // close input and output files
         for (int i = 0; i < num_ways; i++)
-            fclose(out[i]);
+            out[i].close();
      
-        fclose(in);
+        in.close();
     }
     
     // For sorting data stored on disk
     public static void externalSort(
-        char* input_file, char* output_file,
+        String[] input_file, String[] output_file,
         int num_ways, int run_size)
     {
         // read the input file,
