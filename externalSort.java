@@ -99,64 +99,7 @@ class MinHeap
         arr[j] = temp;
     }
  
- 
-    // This function takes an array of
-    // arrays as an argument and All
-    // arrays are assumed to be sorted.
-    // It merges them together and
-    // prints the final sorted output.
-    static void mergeKSortedArrays(int[][] arr, int k)
-    {
-        MinHeapNode[] hArr = new MinHeapNode[k];
-        int resultSize = 0;
-        for(int i = 0; i < arr.length; i++)
-        {
-            MinHeapNode node = new MinHeapNode(arr[i][0],i,1);
-            hArr[i] = node;
-            resultSize += arr[i].length;
-        }
- 
-        // Create a min heap with k heap nodes. Every heap node
-        // has first element of an array
-        MinHeap mh = new MinHeap(hArr, k);
- 
-        int[] result = new int[resultSize];     // To store output array
- 
-        // Now one by one get the minimum element from min
-        // heap and replace it with next element of its array
-        for(int i = 0; i < resultSize; i++)
-        {
- 
-            // Get the minimum element and store it in result
-            MinHeapNode root = mh.getMin();
-            result[i] = root.element;
- 
-            // Find the next element that will replace current
-            // root of heap. The next element belongs to same
-            // array as the current root.
-            if(root.j < arr[root.i].length)
-                root.element = arr[root.i][root.j++];
-            // If root was the last element of its array
-            else
-                root.element = Integer.MAX_VALUE;
- 
-            // Replace root with next element of array
-            mh.replaceMin(root);
-        }
- 
- 
-    }
- 
-//    // Driver code
-//    public static void main(String args[]){
-//        int[][] arr= {{2, 6, 12, 34},
-//                {1, 9, 20, 1000},
-//                {23, 34, 90, 2000}};
-//
-//        System.out.println("Merged array is :");
-//
-//        mergeKSortedArrays(arr,arr.length);
-//    }
+
 };
 
 
@@ -174,7 +117,7 @@ public class externalSort {
         char input_file[] = "input.txt";
         char output_file[] = "output.txt";
      
-        FILE* in = openFile(input_file, "w");
+        File in = writeFile(input_file);
      
         srand(time(NULL));
      
@@ -248,21 +191,23 @@ public class externalSort {
 
     File readFile(charm fileName)
     {
-        File fp = new File(fileName);
-        Scanner reader = new Scanner(fp);
-        if (FileNotFoundException e) {
+        try {
+            File fp = new File(fileName);
+            Scanner reader = new Scanner(fp);
+            return reader;
+        }
+        catch (FileNotFoundException e) {
             System.out.println("An error occurred while opening the file.");
             e.printStackTrace();
         }
-        return reader;
+
     }
     
     File writeFile(char fileName)
     {
         try {
             FileWriter writer = new FileWriter(filename);
-            writer.write()
-            writer.close();
+            return writer;
         }catch {
             System.out.println("An error occurred.");
             e.printStackTrace();
